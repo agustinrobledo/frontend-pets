@@ -136,7 +136,7 @@ const Form = (props) => {
                 className={!form.raza ? "danger" : undefined}
                 >
                     <option value=""> </option>
-                    {razas.map(raza => (
+                    {razas?.map(raza => (
                         <option key={raza.id} value={raza.nombre_raza}>{raza.nombre_raza}</option>
                     ))}
                 </select>
