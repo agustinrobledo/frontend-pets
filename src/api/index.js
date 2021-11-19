@@ -9,7 +9,9 @@ export const getRazas = async () => {
     }
 }
 
-export const postPets = async (data) => {
+export const postPets = async (data, years, months) => {
+    let aprox = false
+    if(years !== 0 || months !== 0) aprox = true
     const response = await fetch('http://localhost:1337/mascotas', {
         method: 'POST',
         body: JSON.stringify({
@@ -17,6 +19,9 @@ export const postPets = async (data) => {
             Raza: data.raza,
             Edad: data.edad,
             Sexo: data.sexo,
+            Año: years,
+            Mes: months,
+            Aproximado: aprox
         }),
         headers: {
             'Content-Type': 'application/json'
