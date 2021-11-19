@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import '../../scss/form.scss'
 import { getRazas, postPets} from '../../api'
+import img from '../../img/illustration.png'
 
 const today = () => {
     const date = new Date();
@@ -73,19 +74,22 @@ const Form = (props) => {
     return (
         <div className="container">
             <h1>Registra a tu mascota</h1>
+            <img src={img} alt=""/>
             <form className="form-container" onSubmit={formSubmit}>
-                <input type="text" className={!form.nombre && "danger"} name="nombre" placeholder="Name" onChange={formChange} />
-                {disabled && <input type="date" className={!form.edad && "danger"} name="edad" placeholder="Age" onChange={formChange} max={today()} />}
-                {disabled && <h3>¿No sabes cuando nació exactamente tu mascota?</h3>}
+                <h4>Nombre:</h4>
+                <input type="text" className={!form.nombre ? "danger" : undefined} name="nombre" placeholder="Nombre" onChange={formChange} />
+                <h4>Fecha de nacimiento:</h4>
+                {disabled && <input type="date" className={!form.edad ? "danger" : undefined} name="edad" placeholder="Age" onChange={formChange} max={today()} />}
+                {disabled && <h4>¿No sabes cuando nació exactamente tu mascota?</h4>}
                 <button
                 type="button"
                 onClick={onClickChange}
-                >{disabled ? "Puedes decirme un estimado" : "Ya recuerdo cuando nacio" }</button>
+                >{disabled ? "Puedes decirme un estimado ➡" : "⬅ Ya recuerdo cuando nacio" }</button>
                 {!disabled &&
                     <div>
                         {disabledAge ?
                         <div>
-                            <h3>Años</h3>
+                            <h3 className="age-aprox">Años</h3>
                             <div className="age-counter">
                                 <button
                                 type="button"
@@ -101,7 +105,7 @@ const Form = (props) => {
                         </div>
                         :
                         <div>
-                            <h3>Meses</h3>
+                            <h3 className="age-aprox">Meses</h3>
                             <div className="age-counter">
                                 <button
                                 type="button"
@@ -125,18 +129,20 @@ const Form = (props) => {
                         </button>
                     </div>
                 }
+                <h4>Raza:</h4>
                 <select
                 onChange={formChange}
                 name="raza"
-                className={!form.raza && "danger"}
+                className={!form.raza ? "danger" : undefined}
                 >
-                    <option value="">Raza</option>
+                    <option value=""> </option>
                     {razas.map(raza => (
                         <option key={raza.id} value={raza.nombre_raza}>{raza.nombre_raza}</option>
                     ))}
                 </select>
-                <select name="sexo" onChange={formChange} className={!form.sexo && "danger"}>
-                    <option value="">Sexo</option>
+                <h4>Sexo:</h4>
+                <select name="sexo" onChange={formChange} className={!form.sexo ? "danger" : undefined}>
+                    <option value=""> </option>
                     <option value="Macho">Macho</option>
                     <option value="Hembra">Hembra</option>
                 </select>
@@ -144,6 +150,9 @@ const Form = (props) => {
                 type="submit"
                 disabled={!form.nombre || !form.raza || !form.sexo || (!form.edad && (months === 0 && years === 0 )) || (form.edad && (months !== 0 && years !== 0 ))}
                 >Enviar</button>
+                <p>
+                    *Todos los campos son obligatorios
+                </p>
             </form>
         </div>
     );
